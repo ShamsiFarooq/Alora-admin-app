@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:alora_admin/screen/requirement/components/reuirment_card.dart';
 import 'package:alora_admin/style/constant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -44,9 +43,6 @@ class _RequirementScreenState extends State<RequirementScreen> {
                 return ListView.separated(
                   itemBuilder: (BuildContext context, int index) {
                     final data = snapshot.data[index];
-                    RequirementCard(
-                      userRequir: data,
-                    );
                   },
                   separatorBuilder: (BuildContext context, int index) {
                     return const Divider(
