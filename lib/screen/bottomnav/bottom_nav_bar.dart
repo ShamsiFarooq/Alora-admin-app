@@ -1,4 +1,4 @@
-import 'package:alora_admin/screen/chat/chat.dart';
+import 'package:alora_admin/screen/chat/admin_chat.dart';
 import 'package:alora_admin/screen/requirement/requirement.dart';
 import 'package:alora_admin/screen/revenue/revenue.dart';
 import 'package:alora_admin/style/constant.dart';
@@ -13,11 +13,7 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   int currentIndexNavBar = 0;
-  final screens = [
-    RequirementScreen(),
-    const ChatScreen(),
-    const RevenueScreen()
-  ];
+  final screens = [RequirementScreen(), AdminChat(), RevenueScreen()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,3 +1,5 @@
+import 'package:alora_admin/screen/bottomnav/bottom_nav_bar.dart';
+import 'package:alora_admin/screen/revenue/revenue.dart';
 import 'package:alora_admin/screen/splash/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
