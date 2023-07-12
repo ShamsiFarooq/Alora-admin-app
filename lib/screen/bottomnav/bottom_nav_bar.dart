@@ -13,7 +13,7 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   int currentIndexNavBar = 0;
-  final screens = [RequirementScreen(), AdminChat(), RevenueScreen()];
+  final screens = [RequirementScreen(), AdminChatScreen(), RevenueScreen()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

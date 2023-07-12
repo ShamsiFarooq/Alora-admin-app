@@ -9,10 +9,11 @@ class RequirementScreen extends StatefulWidget {
 
 class _RequirementScreenState extends State<RequirementScreen> {
   String status = "";
+  List<Map<String, dynamic>> userRequirements = [];
 
   Stream<List<Map<String, dynamic>>> getUserRequirementsStream() {
     return FirebaseFirestore.instance
-        .collection('users')
+        .collection('orders')
         .snapshots()
         .map((snapshot) {
       List<Map<String, dynamic>> userRequirements = [];
@@ -23,6 +24,8 @@ class _RequirementScreenState extends State<RequirementScreen> {
         for (var requirement in userRequirementsList) {
           if (requirement is Map<String, dynamic>) {
             requirement['documentId'] = doc.id;
+            requirement['userId'] = doc.id;
+
             userRequirements.add(requirement);
           }
         }
@@ -31,7 +34,7 @@ class _RequirementScreenState extends State<RequirementScreen> {
     });
   }
 
-  void confirmRequirement(String documentId) {
+  void confirmRequirement(String documentId, int index) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -46,13 +49,42 @@ class _RequirementScreenState extends State<RequirementScreen> {
               child: Text('No'),
             ),
             TextButton(
-              onPressed: () {
-                FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(documentId)
-                    .update({'status': 'Confirmed'})
-                    .then((_) {})
-                    .catchError((error) {});
+              onPressed: () async {
+                try {
+                  final DocumentSnapshot docSnapshot = await FirebaseFirestore
+                      .instance
+                      .collection('orders')
+                      .doc(documentId)
+                      .get();
+                  if (docSnapshot.exists) {
+                    final Map<String, dynamic>? docData =
+                        docSnapshot.data() as Map<String, dynamic>?;
+                    final List<dynamic> customerRequirements =
+                        docData?['userrequirement'] ?? [];
+                    for (var requirement in customerRequirements) {
+                      if (requirement['documentId'] == documentId) {
+                        requirement['status'] = 'Confirmed';
+                        break;
+                      }
+                    }
+                    await FirebaseFirestore.instance
+                        .collection('orders')
+                        .doc(documentId)
+                        .update({'userrequirement': customerRequirements});
+
+                    for (var i = 0; i < userRequirements.length; i++) {
+                      if (userRequirements[i]['documentId'] == documentId) {
+                        setState(() {
+                          userRequirements[i]['status'] = 'Confirmed';
+                        });
+                        break;
+                      }
+                    }
+                  }
+                } catch (error) {
+                  // Handle error
+                  print(error.toString());
+                }
                 Navigator.of(context).pop(true);
               },
               child: Text('Yes'),
@@ -63,46 +95,69 @@ class _RequirementScreenState extends State<RequirementScreen> {
     ).then((value) {
       if (value == true) {
         // User confirmed
-        setState(() {
-          status = 'Confirmed';
-        });
+        if (index >= 0 && index < userRequirements.length) {
+          setState(() {
+            userRequirements[index]['status'] = 'Confirmed';
+          });
+        }
       }
     });
   }
 
-  void cancelRequirement(String documentId) {
+  void cancelRequirement(String documentId, int index) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
-            'Cancellation',
-          ),
-          content: Text(
-            'Are you sure you want to cancel?',
-          ),
+          title: Text('Cancellation'),
+          content: Text('Are you sure you want to cancel?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(false);
               },
-              child: Text(
-                'No',
-              ),
+              child: Text('No'),
             ),
             TextButton(
-              onPressed: () {
-                FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(documentId)
-                    .update({'status': 'Cancelled'})
-                    .then((_) {})
-                    .catchError((error) {});
+              onPressed: () async {
+                try {
+                  final DocumentSnapshot docSnapshot = await FirebaseFirestore
+                      .instance
+                      .collection('orders')
+                      .doc(documentId)
+                      .get();
+                  if (docSnapshot.exists) {
+                    final Map<String, dynamic>? docData =
+                        docSnapshot.data() as Map<String, dynamic>?;
+                    final List<dynamic> customerRequirements =
+                        docData?['userrequirement'] ?? [];
+                    for (var requirement in customerRequirements) {
+                      if (requirement['documentId'] == documentId) {
+                        requirement['status'] = 'Cancelled';
+                        break;
+                      }
+                    }
+                    await FirebaseFirestore.instance
+                        .collection('orders')
+                        .doc(documentId)
+                        .update({'userrequirement': customerRequirements});
+
+                    for (var i = 0; i < userRequirements.length; i++) {
+                      if (userRequirements[i]['documentId'] == documentId) {
+                        setState(() {
+                          userRequirements[i]['status'] = 'Cancelled';
+                        });
+                        break;
+                      }
+                    }
+                  }
+                } catch (error) {
+                  // Handle error
+                  print(error.toString());
+                }
                 Navigator.of(context).pop(true);
               },
-              child: Text(
-                'Yes',
-              ),
+              child: Text('Yes'),
             ),
           ],
         );
@@ -110,9 +165,11 @@ class _RequirementScreenState extends State<RequirementScreen> {
     ).then((value) {
       if (value == true) {
         // User canceled
-        setState(() {
-          status = 'Cancelled';
-        });
+        if (index >= 0 && index < userRequirements.length) {
+          setState(() {
+            userRequirements[index]['status'] = 'Cancelled';
+          });
+        }
       }
     });
   }
@@ -120,7 +177,7 @@ class _RequirementScreenState extends State<RequirementScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: color1,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: color5,
         title: const Text('REQUIREMENT'),
@@ -130,7 +187,7 @@ class _RequirementScreenState extends State<RequirementScreen> {
         stream: getUserRequirementsStream(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            List<Map<String, dynamic>> userRequirements = snapshot.data!;
+            userRequirements = snapshot.data!;
             return ListView.builder(
               itemCount: userRequirements.length,
               itemBuilder: (context, index) {
@@ -139,10 +196,7 @@ class _RequirementScreenState extends State<RequirementScreen> {
 
                 return Padding(
                   padding: const EdgeInsets.only(
-                    left: 15,
-                    right: 15,
-                    top: 12,
-                  ),
+                      left: 15, right: 15, top: 12, bottom: 15),
                   child: Container(
                     decoration: BoxDecoration(
                       color: color2,
@@ -228,7 +282,7 @@ class _RequirementScreenState extends State<RequirementScreen> {
                                 children: [
                                   ElevatedButton(
                                     onPressed: () {
-                                      confirmRequirement(documentId);
+                                      confirmRequirement(documentId, index);
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.green,
@@ -246,7 +300,7 @@ class _RequirementScreenState extends State<RequirementScreen> {
                                   ),
                                   ElevatedButton(
                                     onPressed: () {
-                                      cancelRequirement(documentId);
+                                      cancelRequirement(documentId, index);
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.red,
@@ -266,7 +320,7 @@ class _RequirementScreenState extends State<RequirementScreen> {
                                 ],
                               ),
                               Text(
-                                status,
+                                userRequirement['status'] ?? 'mmm',
                                 style: const TextStyle(
                                   fontSize: 20,
                                   color: Colors.red,
