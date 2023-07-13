@@ -1,6 +1,19 @@
+import 'dart:convert';
+
 import 'package:alora_admin/style/constant.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:crypto/crypto.dart';
+
+String generateChatRoomId(String adminId, String userId) {
+  final ids = [adminId, userId];
+  ids.sort(); // Sort the IDs to ensure consistent chat room IDs
+  final concatenatedIds = ids.join('_');
+  final bytes = utf8.encode(concatenatedIds);
+  final hash = sha1.convert(bytes);
+  return hash.toString();
+}
 
 class AdminChatScreen extends StatefulWidget {
   @override
@@ -109,7 +122,6 @@ class _AdminChatScreenState extends State<AdminChatScreen> {
       MaterialPageRoute(
         builder: (context) => UserChatScreen(
           uid: userId,
-          userName: userName,
         ),
       ),
     );
@@ -127,7 +139,7 @@ class UserChatScreen extends StatefulWidget {
   final String uid;
   final String adminId = 'alora_admin'; // Set the admin ID
 
-  UserChatScreen({required this.uid, required String userName});
+  UserChatScreen({required this.uid});
 
   @override
   _UserChatScreenState createState() => _UserChatScreenState();
@@ -137,6 +149,18 @@ class _UserChatScreenState extends State<UserChatScreen> {
   CollectionReference messagesCollection =
       FirebaseFirestore.instance.collection('messages');
 
+  String chatRoomId = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getChatRoomId();
+  }
+
+  void getChatRoomId() {
+    chatRoomId = generateChatRoomId(widget.adminId, widget.uid);
+  }
+
   TextEditingController _textEditingController = TextEditingController();
 
   @override
@@ -145,20 +169,19 @@ class _UserChatScreenState extends State<UserChatScreen> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: const Text('user'),
+        title: Text('User Chat'),
       ),
       body: Column(
         children: [
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: messagesCollection
-                  .where('sender', whereIn: [widget.uid])
-                  .where('receiver', isEqualTo: [widget.uid])
+                  .doc(chatRoomId)
+                  .collection('messages')
                   .orderBy('timestamp', descending: true)
                   .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
-                // print(widget.uid);
                 if (snapshot.hasData) {
                   final messages = snapshot.data!.docs.map((doc) {
                     final data = doc.data() as Map<String, dynamic>;
@@ -184,7 +207,7 @@ class _UserChatScreenState extends State<UserChatScreen> {
                                 margin:
                                     const EdgeInsets.symmetric(vertical: 10.0),
                                 decoration: const BoxDecoration(
-                                  color: color5,
+                                  color: lightBlue,
                                   borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(15),
                                     bottomRight: Radius.circular(15),
@@ -235,8 +258,8 @@ class _UserChatScreenState extends State<UserChatScreen> {
 
   void _sendMessage(String message, String uid) async {
     if (message.isNotEmpty) {
-      await messagesCollection.add({
-        'sender': "alora_admin",
+      await messagesCollection.doc(chatRoomId).collection('messages').add({
+        'sender': widget.adminId,
         'receiver': uid,
         'message': message,
         'timestamp': DateTime.now(),

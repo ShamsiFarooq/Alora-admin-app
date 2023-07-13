@@ -320,7 +320,7 @@ class _RequirementScreenState extends State<RequirementScreen> {
                                 ],
                               ),
                               Text(
-                                userRequirement['status'] ?? 'mmm',
+                                userRequirement['status'] ?? 'N/A',
                                 style: const TextStyle(
                                   fontSize: 20,
                                   color: Colors.red,

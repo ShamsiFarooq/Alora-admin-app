@@ -13,7 +13,11 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   int currentIndexNavBar = 0;
-  final screens = [RequirementScreen(), AdminChatScreen(), RevenueScreen()];
+  final screens = [
+    RequirementScreen(),
+    AdminChatScreen(),
+    // RevenueScreen(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,12 +41,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
             icon: Icon(Icons.chat),
             label: 'chat',
           ),
-          BottomNavigationBarItem(
-            backgroundColor: color2,
-            // ignore: unnecessary_const
-            icon: Icon(Icons.reviews),
-            label: 'revenue',
-          ),
+          // BottomNavigationBarItem(
+          //   backgroundColor: color2,
+          //   // ignore: unnecessary_const
+          //   icon: Icon(Icons.reviews),
+          //   label: 'revenue',
+          // ),
         ],
       ),
     );

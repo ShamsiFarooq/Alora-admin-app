@@ -1,10 +1,10 @@
 import 'package:alora_admin/screen/revenue/revenue_history.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class RevenueScreen extends StatefulWidget {
+  const RevenueScreen({super.key});
+
   @override
   _RevenueScreenState createState() => _RevenueScreenState();
 }
@@ -15,10 +15,10 @@ class _RevenueScreenState extends State<RevenueScreen> {
   double _weeklyRevenue = 0.0;
   double _monthlyRevenue = 0.0;
 
-  TextEditingController _revenueController = TextEditingController();
-  TextEditingController _expensesController = TextEditingController();
+  final TextEditingController _revenueController = TextEditingController();
+  final TextEditingController _expensesController = TextEditingController();
 
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -81,54 +81,58 @@ class _RevenueScreenState extends State<RevenueScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Office Revenue Calculator'),
+        title: const Text('Office Revenue Calculator'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextField(
               controller: _revenueController,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Total Revenue',
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             TextField(
               controller: _expensesController,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Total Expenses',
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: _calculateRevenue,
-              child: Text('Calculate'),
+              child: const Text('Calculate'),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Text(
               'Total Revenue: \$$_totalRevenue',
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              style:
+                  const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Text(
               'Daily Revenue: \$$_dailyRevenue',
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              style:
+                  const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Text(
               'Weekly Revenue: \$$_weeklyRevenue',
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              style:
+                  const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Text(
               'Monthly Revenue: \$$_monthlyRevenue',
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              style:
+                  const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -137,7 +141,7 @@ class _RevenueScreenState extends State<RevenueScreen> {
                       builder: (context) => RevenueHistoryScreen()),
                 );
               },
-              child: Text('View History'),
+              child: const Text('View History'),
             ),
           ],
         ),
