@@ -1,6 +1,5 @@
 import 'package:alora_admin/screen/chat/admin_chat.dart';
 import 'package:alora_admin/screen/requirement/requirement.dart';
-import 'package:alora_admin/screen/revenue/revenue.dart';
 import 'package:alora_admin/style/constant.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +13,7 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int currentIndexNavBar = 0;
   final screens = [
-    RequirementScreen(),
+    OrderListScreen(),
     AdminChatScreen(),
     // RevenueScreen(),
   ];
