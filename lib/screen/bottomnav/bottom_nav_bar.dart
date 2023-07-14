@@ -21,8 +21,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: screens[currentIndexNavBar],
-      backgroundColor: color1,
+      backgroundColor: Colors.black,
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.black,
         currentIndex: currentIndexNavBar,
         onTap: (index) => setState(() => currentIndexNavBar = index),
         iconSize: 40,

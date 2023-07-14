@@ -68,45 +68,66 @@ class _AdminChatScreenState extends State<AdminChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Admin Chat'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: userIds.length,
-                itemBuilder: (context, index) {
-                  final userId = userIds[index];
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        appBar: AppBar(
+          backgroundColor: color5,
+          title: const Text('Customers'),
+          centerTitle: true,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: userIds.length,
+                  itemBuilder: (context, index) {
+                    final userId = userIds[index];
 
-                  return ListTile(
-                    title: FutureBuilder<String>(
-                      future: fetchUserName(userId),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          final userName = snapshot.data!;
-                          return Text(userName);
-                        } else if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        } else {
-                          return const CircularProgressIndicator();
-                        }
-                      },
-                    ),
-                    onTap: () {
-                      _openChatRoom(
-                        userId,
-                      );
-                    },
-                  );
-                },
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: lightBlue,
+                          borderRadius: BorderRadius.circular(29),
+                        ),
+                        child: ListTile(
+                          title: FutureBuilder<String>(
+                            future: fetchUserName(userId),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                final userName = snapshot.data!;
+                                return Text(
+                                  userName,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                );
+                              } else if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              } else {
+                                return const CircularProgressIndicator();
+                              }
+                            },
+                          ),
+                          onTap: () {
+                            _openChatRoom(
+                              userId,
+                            );
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-          ],
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );
@@ -148,17 +169,29 @@ class UserChatScreen extends StatefulWidget {
 class _UserChatScreenState extends State<UserChatScreen> {
   CollectionReference messagesCollection =
       FirebaseFirestore.instance.collection('messages');
+  CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('users');
 
   String chatRoomId = '';
+  String username = '';
 
   @override
   void initState() {
     super.initState();
     getChatRoomId();
+    fetchUsername();
   }
 
   void getChatRoomId() {
     chatRoomId = generateChatRoomId(widget.adminId, widget.uid);
+  }
+
+  Future<void> fetchUsername() async {
+    final userSnapshot = await userCollection.doc(widget.uid).get();
+    final userData = userSnapshot.data() as Map<String, dynamic>?;
+    setState(() {
+      username = userData?['username'] ?? 'Unknown User';
+    });
   }
 
   TextEditingController _textEditingController = TextEditingController();
@@ -169,7 +202,7 @@ class _UserChatScreenState extends State<UserChatScreen> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text('User Chat'),
+        title: Text(username),
       ),
       body: Column(
         children: [
@@ -197,28 +230,79 @@ class _UserChatScreenState extends State<UserChatScreen> {
                     itemCount: messages.length,
                     itemBuilder: (context, index) {
                       final message = messages[index];
-                      return ListTile(
-                        title: Row(
-                          mainAxisSize: MainAxisSize.min,
+                      final bool isAdmin = message.sender == widget.adminId;
+                      final bool isCurrentUser = message.sender == widget.uid;
+                      final containerColor =
+                          isAdmin ? Colors.green : Colors.blue;
+                      final alignment = isCurrentUser
+                          ? MainAxisAlignment.start
+                          : MainAxisAlignment.end;
+
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: Row(
+                          mainAxisAlignment: alignment,
                           children: [
                             Flexible(
                               fit: FlexFit.loose,
                               child: Container(
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 10.0),
-                                decoration: const BoxDecoration(
-                                  color: lightBlue,
+                                decoration: BoxDecoration(
+                                  color: containerColor,
                                   borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(15),
-                                    bottomRight: Radius.circular(15),
+                                    topRight: isCurrentUser
+                                        ? Radius.circular(15)
+                                        : Radius.zero,
+                                    topLeft: isAdmin
+                                        ? Radius.circular(15)
+                                        : Radius.zero,
+                                    bottomRight: isCurrentUser
+                                        ? Radius.zero
+                                        : Radius.circular(15),
+                                    bottomLeft: isAdmin
+                                        ? Radius.zero
+                                        : Radius.circular(15),
                                   ),
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    message.sender + ': ' + message.message,
-                                    style: const TextStyle(color: color1),
-                                    overflow: TextOverflow.visible,
+                                  child: FutureBuilder<DocumentSnapshot>(
+                                    future: userCollection
+                                        .doc(message.sender)
+                                        .get(),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<DocumentSnapshot>
+                                            snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.done) {
+                                        if (snapshot.hasData &&
+                                            snapshot.data!.exists) {
+                                          final userData =
+                                              snapshot.data!.data();
+                                          if (userData != null &&
+                                              userData
+                                                  is Map<String, dynamic>) {
+                                            final senderName =
+                                                (userData['username'] != null)
+                                                    ? userData['username']
+                                                    : (isCurrentUser
+                                                        ? 'You'
+                                                        : 'Admin');
+
+                                            return Text(
+                                              '$senderName: ${message.message}',
+                                              style: const TextStyle(
+                                                  color: color1),
+                                              overflow: TextOverflow.visible,
+                                            );
+                                          }
+                                        }
+                                      }
+                                      return Text(
+                                        message.sender + ': ' + message.message,
+                                        style: const TextStyle(color: color1),
+                                        overflow: TextOverflow.visible,
+                                      );
+                                    },
                                   ),
                                 ),
                               ),
@@ -244,7 +328,9 @@ class _UserChatScreenState extends State<UserChatScreen> {
                   icon: const Icon(Icons.send),
                   onPressed: () {
                     _sendMessage(
-                        _textEditingController.text.trim(), widget.uid);
+                      _textEditingController.text.trim(),
+                      widget.uid,
+                    );
                     _textEditingController.clear();
                   },
                 ),
