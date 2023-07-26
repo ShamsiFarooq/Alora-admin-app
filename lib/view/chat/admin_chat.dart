@@ -1,19 +1,9 @@
-import 'dart:convert';
-
+import 'package:alora_admin/model/chat_message.dart';
+import 'package:alora_admin/services/chat_room_id.dart';
 import 'package:alora_admin/style/constant.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:crypto/crypto.dart';
-
-String generateChatRoomId(String adminId, String userId) {
-  final ids = [adminId, userId];
-  ids.sort(); // Sort the IDs to ensure consistent chat room IDs
-  final concatenatedIds = ids.join('_');
-  final bytes = utf8.encode(concatenatedIds);
-  final hash = sha1.convert(bytes);
-  return hash.toString();
-}
 
 class AdminChatScreen extends StatefulWidget {
   @override
@@ -147,13 +137,6 @@ class _AdminChatScreenState extends State<AdminChatScreen> {
       ),
     );
   }
-}
-
-class ChatMessage {
-  final String sender;
-  final String message;
-
-  ChatMessage({required this.sender, required this.message});
 }
 
 class UserChatScreen extends StatefulWidget {

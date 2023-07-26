@@ -1,7 +1,7 @@
-import 'package:alora_admin/screen/chat/admin_chat.dart';
-import 'package:alora_admin/screen/requirement/requirement.dart';
+import 'package:alora_admin/view/chat/admin_chat.dart';
 import 'package:alora_admin/style/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:alora_admin/view/requirement/requirement.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});

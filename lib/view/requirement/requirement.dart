@@ -11,7 +11,7 @@ class OrderListScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: color5,
           centerTitle: true,
-          title: Text('Customers'),
+          title: const Text('Customers'),
         ),
         body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance.collection('orders').snapshots(),
@@ -21,7 +21,7 @@ class OrderListScreen extends StatelessWidget {
             }
 
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
 
             final documents = snapshot.data?.docs ?? [];
@@ -255,7 +255,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         backgroundColor: color1,
         appBar: AppBar(
           backgroundColor: color5,
-          title: Text('Order Details'),
+          title: const Text('Order Details'),
           centerTitle: true,
         ),
         body: ListView.builder(
@@ -287,21 +287,14 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     children: [
                       height15,
                       Text(
-                        'Date and Time: ${requirement['datetime']}',
+                        'Contact Number: ${requirement['contactname']}',
                         style: const TextStyle(
                           fontSize: 16,
                           color: color5,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
-                        'Hours: ${requirement['hours']}',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: color5,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      height5,
                       Text(
                         'Contact Number: ${requirement['contactnumber']}',
                         style: const TextStyle(
@@ -310,6 +303,34 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      height5,
+                      Text(
+                        'Date and Time: ${requirement['date']}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: color5,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      height5,
+                      Text(
+                        'Date and Time: ${requirement['time']}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: color5,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      height5,
+                      Text(
+                        'Hours: ${requirement['hours']}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: color5,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      height5,
                       Text(
                         'Location: ${requirement['location']}',
                         style: const TextStyle(
@@ -318,6 +339,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      height5,
                       Text(
                         'Cleaning Type: ${requirement['cleaningtype']}',
                         style: const TextStyle(
@@ -326,14 +348,16 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      height5,
                       Text(
-                        'Professionals: ${requirement['professional']}',
+                        'Professionals: ${requirement['professionals']}',
                         style: const TextStyle(
                           fontSize: 16,
                           color: color5,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      height5,
                       Text(
                         'User Id: ${requirement['documentId']}',
                         style: const TextStyle(
@@ -342,6 +366,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      height5,
                       const SizedBox(
                         height: 10,
                       ),
@@ -399,7 +424,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             ],
                           ),
                           Text(
-                            requirement['status'] ?? 'N/A',
+                            requirement['status'] ?? 'Pending status',
                             style: const TextStyle(
                               fontSize: 20,
                               color: Colors.red,

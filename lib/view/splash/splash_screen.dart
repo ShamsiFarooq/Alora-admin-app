@@ -1,5 +1,4 @@
-import 'package:alora_admin/screen/bottomnav/bottom_nav_bar.dart';
-import 'package:alora_admin/screen/requirement/requirement.dart';
+import 'package:alora_admin/view/bottomnav/bottom_nav_bar.dart';
 import 'package:alora_admin/style/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';

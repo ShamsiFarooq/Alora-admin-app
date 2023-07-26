@@ -1,4 +1,4 @@
-import 'package:alora_admin/screen/revenue/revenue_history.dart';
+import 'package:alora_admin/view/revenue/revenue_history.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
