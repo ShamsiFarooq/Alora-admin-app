@@ -1,5 +1,6 @@
 import 'package:alora_admin/view/chat/admin_chat.dart';
 import 'package:alora_admin/style/constant.dart';
+import 'package:alora_admin/view/privacy/page.dart';
 import 'package:flutter/material.dart';
 import 'package:alora_admin/view/requirement/requirement.dart';
 
@@ -12,11 +13,7 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   int currentIndexNavBar = 0;
-  final screens = [
-    OrderListScreen(),
-    AdminChatScreen(),
-    // RevenueScreen(),
-  ];
+  final screens = [OrderListScreen(), AdminChatScreen(), PrivacyPolicy()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,12 +38,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
             icon: Icon(Icons.chat),
             label: 'chat',
           ),
-          // BottomNavigationBarItem(
-          //   backgroundColor: color2,
-          //   // ignore: unnecessary_const
-          //   icon: Icon(Icons.reviews),
-          //   label: 'revenue',
-          // ),
+          BottomNavigationBarItem(
+            backgroundColor: color2,
+            // ignore: unnecessary_const
+            icon: Icon(Icons.privacy_tip_sharp),
+            label: 'Terms & conditions',
+          ),
         ],
       ),
     );

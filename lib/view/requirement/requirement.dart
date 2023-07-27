@@ -9,6 +9,7 @@ class OrderListScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: color5,
           centerTitle: true,
           title: const Text('Customers'),
