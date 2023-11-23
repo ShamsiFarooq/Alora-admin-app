@@ -16,6 +16,7 @@ class _AdminChatScreenState extends State<AdminChatScreen> {
   CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('users');
 
+  // ignore: unused_field
   final TextEditingController _textEditingController = TextEditingController();
   List<String> userIds = [];
   Map<String, List<ChatMessage>> userMessages = {};
