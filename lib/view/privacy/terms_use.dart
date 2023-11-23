@@ -2,7 +2,6 @@ import 'package:alora_admin/style/constant.dart';
 import 'package:alora_admin/view/privacy/dialoge.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:animations/animations.dart';
 
 class TermsOfUse extends StatelessWidget {

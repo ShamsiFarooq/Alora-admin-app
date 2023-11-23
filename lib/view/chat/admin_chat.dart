@@ -124,7 +124,7 @@ class _AdminChatScreenState extends State<AdminChatScreen> {
   }
 
   void _openChatRoom(String userId) async {
-    final userName = await fetchUserName(userId);
+    //final userName = await fetchUserName(userId);
     setState(() {
       selectedUserId = userId;
     });
