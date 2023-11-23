@@ -6,6 +6,8 @@ const color3 = Color(0xFF3DDAD7);
 const color4 = Color(0xFF2A93D5);
 const color5 = Color(0xFF135589);
 const lightBlue = Color.fromARGB(255, 63, 204, 188);
+const majanda = Color.fromARGB(255, 209, 61, 250);
+const black = Colors.black;
 
 SizedBox height15 = SizedBox(height: 15);
 SizedBox height5 = SizedBox(height: 5);

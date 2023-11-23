@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "241564601963",
-    "project_id": "alora-62132",
-    "storage_bucket": "alora-62132.appspot.com"
+    "project_number": "170970721934",
+    "project_id": "alora-21819",
+    "storage_bucket": "alora-21819.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:241564601963:android:aa4b5fc68ea4a83b4c6b2e",
+        "mobilesdk_app_id": "1:170970721934:android:40094e27e1055d6f10e3df",
         "android_client_info": {
-          "package_name": "com.shamsi.alora"
+          "package_name": "in.shamsi.alora"
         }
       },
       "oauth_client": [
         {
-          "client_id": "241564601963-eo3are1pmrlpck0vnmgmishs1o7a6faf.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.shamsi.alora",
-            "certificate_hash": "18eb950d92168fc9a77b0ef0ac5fbc32c44d3669"
-          }
-        },
-        {
-          "client_id": "241564601963-fd8cbcb5faldhihm6u75k7j85jfdjd1m.apps.googleusercontent.com",
+          "client_id": "170970721934-je9g5g6bfuv3hofqim4vr0g4kn2r30t3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBN6K_O2ZASeCXwkwen6SdPV1jS_vk4RqI"
+          "current_key": "AIzaSyAe2-5CJgg3CHhL7WQtPKBj8hTLlsUYYTI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "241564601963-1s7orqfhrlr077vafjaf1e764bsbp6v0.apps.googleusercontent.com",
+              "client_id": "170970721934-je9g5g6bfuv3hofqim4vr0g4kn2r30t3.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -44,27 +36,27 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:241564601963:android:8571820240a427534c6b2e",
+        "mobilesdk_app_id": "1:170970721934:android:692df7407c107dd010e3df",
         "android_client_info": {
-          "package_name": "com.shamsi.alora_admin"
+          "package_name": "in.shamsi.alora_admin"
         }
       },
       "oauth_client": [
         {
-          "client_id": "241564601963-fd8cbcb5faldhihm6u75k7j85jfdjd1m.apps.googleusercontent.com",
+          "client_id": "170970721934-je9g5g6bfuv3hofqim4vr0g4kn2r30t3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBN6K_O2ZASeCXwkwen6SdPV1jS_vk4RqI"
+          "current_key": "AIzaSyAe2-5CJgg3CHhL7WQtPKBj8hTLlsUYYTI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "241564601963-1s7orqfhrlr077vafjaf1e764bsbp6v0.apps.googleusercontent.com",
+              "client_id": "170970721934-je9g5g6bfuv3hofqim4vr0g4kn2r30t3.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

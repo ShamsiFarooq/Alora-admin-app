@@ -1,7 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.alora_admin">
+    <uses-permission
+     android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+     android:maxSdkVersion="18" />
    <application
-        android:label="alora_admin"
+        android:label="Alora_Admin"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
